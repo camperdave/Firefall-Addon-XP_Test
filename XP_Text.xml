@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Component xmlns="http://www.red5studios.com/"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.red5studios.com/ ../../../schemas/component.xsd">
+	<Info
+		title="xp-text"
+		author="camperdave"
+		description="Text Display of the XP required to ding"
+		url=""
+		uiVersion="1000"
+	/>
+
+	<Events>
+		<Event name="ON_COMPONENT_LOAD"			bind="OnComponentLoad"/>
+		<Event name="MY_TWEAKUI_HANDLER"		bind="TWEAKUI_OnEvent"/>
+		<Event name="MY_HUD_SHOW"				bind="OnShow"/>
+		<Event name="ON_EXPERIENCE_CHANGED"		bind="OnExperienceChanged" />
+		<Event name="ON_BATTLEFRAME_CHANGED"	bind="OnBattleframeChanged"/>
+	</Events>
+
+	<Frames>
+		<HUDFrame name="Main" dimensions="left:5; width:200; bottom:100%-30; height:20">
+			<Children>
+				<Text id="XP_Text" dimensions="dock:fill" style="font:Demi_11; halign:left; valign:center; clip:false; wrap:false; alpha:0.8"/>
+			</Children>
+			<OnMessage bind="OnMessage"/>
+		</HUDFrame>
+	</Frames>
+
+</Component>
