@@ -35,12 +35,9 @@ TweakUI.AddOption({id="SCALE", label="Scale", button="slider", min=0.5, max=2.0,
 --VARIABLES
 local g_enabled = true
 local g_HUDShow = true
-local cb_update = nil 
 
 local g_XPinfo    = {};
 
--- %%%%%%%%%%%%% Edit these if you want %%%%%%%%%%%%
-local daystrings = {"midnight", "past midnight", "early", "dawn", "morning", "late morning", "midday", "afternoon", "evening", "dark", "late", "extra", "error"}
 
 --EVENTS
 function OnComponentLoad()
@@ -57,22 +54,7 @@ function OnMessage(args)
     g_enabled = (args.data == true or args.data == "true")
     FRAME:Show(g_enabled and not Player.IsSpectating())
     if g_enabled then
-      CancelUpdate()
-      --UpdateTime()
-      if g_XPinfo.remaining ~= nil then
-        local xp_string = string.format("%d / %d [%d to next level]", g_XPinfo.player_level_xp, g_XPinfo.total_level_xp, g_XPinfo.remaining);
-        log(xp_string);
-        XP_TEXT:SetText(xp_string);
-      else
-        log("No XP Info loaded yet!");
-        UpdateXP();
-        local xp_string = string.format("%d / %d [%d to next level]", g_XPinfo.player_level_xp, g_XPinfo.total_level_xp, g_XPinfo.remaining);
-        log(xp_string);
-        XP_TEXT:SetText(xp_string);
-      end
-    elseif cb_update then
-      cancel_callback(cb_update)
-      cb_update = nil
+      UpdateXP();
     end
   end
 end
@@ -82,6 +64,10 @@ function OnExperienceChanged()
 end
 
 function OnBattleframeChanged()
+  UpdateXP();
+end
+
+function OnLevelChanged()
   UpdateXP();
 end
 
@@ -97,12 +83,5 @@ function UpdateXP()
   else
     g_XPinfo.percent = 0
     g_XPinfo.remaining = 0
-  end
-end
-
-function CancelUpdate()
-  if cb_update then
-    cancel_callback(cb_update)
-    cb_update = nil;
   end
 end
